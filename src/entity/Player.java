@@ -1,5 +1,6 @@
 package entity;
 
+import main.ControllerHandler;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -13,6 +14,7 @@ public class Player extends Entity {
 
     GamePanel gp;
     KeyHandler kh;
+    ControllerHandler ch;
 
     public final int screenX;
     public final int screenY;
@@ -23,9 +25,10 @@ public class Player extends Entity {
 
     private boolean jumpKeyReleased = true;
 
-    public Player(GamePanel gp, KeyHandler kh) {
+    public Player(GamePanel gp, KeyHandler kh, ControllerHandler ch) {
         this.gp = gp;
         this.kh = kh;
+        this.ch = ch;
 
         screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
@@ -43,8 +46,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 78;
-        worldY = gp.tileSize * 52;
+        worldX = gp.tileSize * 9;
+        worldY = gp.tileSize * 63;
         preciseY = worldY;
         speed = 5;
         direction = "right";
@@ -86,7 +89,7 @@ public class Player extends Entity {
 
     public void update() {
 
-        if (kh.spacePressed && !jumping && jumpKeyReleased && isOnGround()) {
+        if ((kh.spacePressed || ch.spacePressed) && !jumping && jumpKeyReleased && isOnGround()) {
             jumping = true;
             jumpStartY = preciseY;
             velocityY = jumpSpeed;
@@ -137,10 +140,10 @@ public class Player extends Entity {
 
         // Horizontal movement
         int oldX = worldX;
-        if (kh.leftPressed) {
+        if (kh.leftPressed || ch.leftPressed) {
             worldX -= speed;
             direction = "left";
-        } else if (kh.rightPressed) {
+        } else if (kh.rightPressed || ch.rightPressed) {
             worldX += speed;
             direction = "right";
         }
@@ -173,7 +176,7 @@ public class Player extends Entity {
             spriteCounter = 0;
         }
 
-        if (!kh.spacePressed) {
+        if (!kh.spacePressed || !ch.spacePressed) {
             jumpKeyReleased = true;
         }
     }
@@ -208,7 +211,7 @@ public class Player extends Entity {
                         gp.playSE(6);
                     }
                     else {
-                        gp.ui.showMessage("10 diamonds and 10 keys to unlock");
+                        gp.ui.showMessage("10 keys and 10 diamonds to unlock");
                     }
                     break;
             }
