@@ -16,12 +16,15 @@ public class UI {
     BufferedImage keyImage;
     BufferedImage diamondImage;
     BufferedImage clock;
+    Graphics2D g2;
 
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
 
     public boolean gameFinished = false;
+
+    public boolean teleport = false;
 
     float playTime;
     DecimalFormat dFormat = new DecimalFormat("#0.00");
@@ -54,6 +57,10 @@ public class UI {
     }
 
     public void draw(Graphics2D g2) {
+
+        this.g2 = g2;
+        g2.setFont(arial_40);
+        g2.setColor(Color.white);
 
         if(gameFinished) {
 
@@ -90,33 +97,54 @@ public class UI {
         }
         else {
 
-            g2.setFont(arial_20);
-            g2.setColor(Color.white);
-            g2.drawImage(keyImage, gp.tileSize / 4, gp.tileSize / 4, gp.tileSize, gp.tileSize,null);
-            g2.drawString("x " + gp.player.hasKey, 50, 45);
-            g2.drawImage(diamondImage, gp.tileSize / 4, gp.tileSize + gp.tileSize / 4, gp.tileSize, gp.tileSize,null);
-            g2.drawString("x " + gp.player.hasDiamond, 50, 90);
+            if(gp.gameState == gp.playState) {
 
-            // MESSAGE
-            if(messageOn) {
+                g2.setFont(arial_20);
+                g2.setColor(Color.white);
+                g2.drawImage(keyImage, gp.tileSize / 4, gp.tileSize / 4, gp.tileSize, gp.tileSize,null);
+                g2.drawString("x " + gp.player.hasKey, 50, 45);
+                g2.drawImage(diamondImage, gp.tileSize / 4, gp.tileSize + gp.tileSize / 4, gp.tileSize, gp.tileSize,null);
+                g2.drawString("x " + gp.player.hasDiamond, 50, 90);
 
-                g2.setFont(g2.getFont().deriveFont(20F));
-                g2.drawString(message, 6 * gp.tileSize, 4 * gp.tileSize);
+                // MESSAGE
+                if(messageOn) {
 
-                messageCounter++;
+                    g2.setFont(g2.getFont().deriveFont(20F));
+                    g2.drawString(message, 6 * gp.tileSize, 4 * gp.tileSize);
 
-                if(messageCounter > 300) {
-                    messageCounter = 0;
-                    messageOn = false;
+                    messageCounter++;
+
+                    if(messageCounter > 300) {
+                        messageCounter = 0;
+                        messageOn = false;
+                    }
                 }
+
+                // TIME
+                playTime += (double) 1/60;
+                g2.drawImage(clock, 15 * gp.tileSize, gp.tileSize / 4, gp.tileSize, gp.tileSize,null);
+                g2.drawString(": " + dFormat.format(playTime) , gp.tileSize * 16, 45);
+
+            }
+            if(gp.gameState == gp.pauseState) {
+                drawPauseScreen();
             }
 
-            // TIME
-            playTime += (double) 1/60;
-            g2.drawImage(clock, 15 * gp.tileSize, gp.tileSize / 4, gp.tileSize, gp.tileSize,null);
-            g2.drawString(": " + dFormat.format(playTime) , gp.tileSize * 16, 45);
         }
+    }
 
+    public void drawPauseScreen() {
 
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
+        String text = "PAUSED";
+
+        int x = getXForCenteredText(text);
+        int y = gp.screenHeight / 2;
+
+        g2.drawString(text, x, y);
+    }
+    public int getXForCenteredText(String text) {
+        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return gp.screenWidth / 2 - length / 2;
     }
 }

@@ -3,6 +3,7 @@ package entity;
 import main.ControllerHandler;
 import main.GamePanel;
 import main.KeyHandler;
+import tile.TileManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,6 +24,9 @@ public class Player extends Entity {
     public int hasDiamond = 0;
     public int hasBook = 0;
 
+    private int coyoteTimer = 0;
+    private final int maxCoyoteTime = 6; // around 100 ms if running at 60 FPS
+
     private boolean jumpKeyReleased = true;
 
     public Player(GamePanel gp, KeyHandler kh, ControllerHandler ch) {
@@ -34,11 +38,11 @@ public class Player extends Entity {
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         solidArea = new Rectangle();
-        solidArea.x = 15;
+        solidArea.x = 25;
         solidArea.y = 20;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 10;
+        solidArea.width = 5;
         solidArea.height = 30;
 
         setDefaultValues();
@@ -89,7 +93,10 @@ public class Player extends Entity {
 
     public void update() {
 
-        if ((kh.spacePressed || ch.spacePressed) && !jumping && jumpKeyReleased && isOnGround()) {
+        boolean jumpInput = kh.spacePressed || ch.spacePressed;
+        boolean canJump = !jumping && jumpKeyReleased && (isOnGround() || coyoteTimer > 0);
+
+        if (jumpInput && canJump) {
             jumping = true;
             jumpStartY = preciseY;
             velocityY = jumpSpeed;
@@ -133,7 +140,7 @@ public class Player extends Entity {
 
             // Animate jump
             jumpCounter++;
-            if (jumpCounter % 6 == 0 && jumpFrameIndex < 5) {
+            if (jumpCounter % 6 == 0 && jumpFrameIndex < 6) {
                 jumpFrameIndex++;
             }
         }
@@ -202,16 +209,45 @@ public class Player extends Entity {
                     break;
                 case "Book":
                     gp.playSE(4);
-                    if(hasDiamond == 10 && hasKey == 10) {
-                        gp.playSE(4);
-                        hasBook++;
-                        gp.obj[i] = null;
-                        gp.ui.gameFinished = true;
-                        gp.stopMusic();
-                        gp.playSE(6);
+                    if(hasBook == 0) {
+                        if(hasDiamond == 10 && hasKey == 10) {
+                            gp.playSE(4);
+                            hasBook++;
+                            hasKey = 0; hasDiamond = 0;
+                            gp.obj[i] = null;
+                            worldX = gp.tileSize * 9;
+                            worldY = gp.tileSize * 106;
+
+                        }
+                        else if(hasKey == 10 && hasDiamond < 10) {
+                            gp.ui.showMessage((10 - hasDiamond) + " diamonds left to unlock book");
+                        }
+                        else if(hasDiamond == 10 && hasKey < 10) {
+                            gp.ui.showMessage((10 - hasKey) + " keys left to unlock book");
+                        }
+                        else {
+                            gp.ui.showMessage((10 - hasKey) + " keys and " + (10 - hasDiamond) + " diamonds left to unlock book");
+                        }
                     }
-                    else {
-                        gp.ui.showMessage("10 keys and 10 diamonds to unlock");
+                    if(hasBook == 1) {
+                        if(hasDiamond == 10 && hasKey == 10) {
+                            gp.playSE(4);
+                            hasBook++;
+                            hasKey = 0; hasDiamond = 0;
+                            gp.obj[i] = null;
+                            gp.ui.gameFinished = true;
+                            gp.stopMusic();
+                            gp.playSE(6);
+                        }
+                        else if(hasKey == 10 && hasDiamond < 10) {
+                            gp.ui.showMessage((10 - hasDiamond) + " diamonds left to unlock book");
+                        }
+                        else if(hasDiamond == 10 && hasKey < 10) {
+                            gp.ui.showMessage((10 - hasKey) + " keys left to unlock book");
+                        }
+                        else {
+                            gp.ui.showMessage((10 - hasKey) + " keys and " + (10 - hasDiamond) + " diamonds left to unlock book");
+                        }
                     }
                     break;
             }

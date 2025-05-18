@@ -4,12 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.net.URL;
 import javax.sound.sampled.*;
 
 public class GameMenu extends JFrame {
 
     public GameMenu() {
-        setTitle("Meniu Joc");
+        setTitle("Cartea Umbrelor");
 
         GamePanel gp = new GamePanel(); // to get size constants
         setSize(gp.screenWidth, gp.screenHeight);
@@ -19,7 +20,7 @@ public class GameMenu extends JFrame {
         setLocationRelativeTo(null);
 
         // Panou cu fundal imagine
-        BackgroundPanel panel = new BackgroundPanel("res/background1.png");
+        BackgroundPanel panel = new BackgroundPanel(getClass().getResource("/menu/background1.png"));
         panel.setLayout(new GridLayout(5, 1, 10, 20));
         panel.setBorder(BorderFactory.createEmptyBorder(70, 150, 60, 150));
         panel.setOpaque(false);
@@ -133,7 +134,7 @@ public class GameMenu extends JFrame {
     static class BackgroundPanel extends JPanel {
         private Image backgroundImage;
 
-        public BackgroundPanel(String imagePath) {
+        public BackgroundPanel(URL imagePath) {
             backgroundImage = new ImageIcon(imagePath).getImage();
         }
 
@@ -147,7 +148,7 @@ public class GameMenu extends JFrame {
     // Sunet la click
     private void playClickSound() {
         try {
-            File soundFile = new File("res/clickSound.wav"); // modifică dacă e altă locație
+            File soundFile = new File("res/menu/clickSound.wav"); // modifică dacă e altă locație
             if (soundFile.exists()) {
                 AudioInputStream audioInput = AudioSystem.getAudioInputStream(soundFile);
                 Clip clip = AudioSystem.getClip();
