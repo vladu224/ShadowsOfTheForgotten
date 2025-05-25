@@ -4,6 +4,7 @@ import object.OBJ_Diamond;
 import object.OBJ_Key;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -18,15 +19,19 @@ public class UI {
     BufferedImage clock;
     Graphics2D g2;
 
+    //private boolean gameFinished = false;
+    private boolean redirectScheduled = false;
+
+    //    private long gameFinishedStartTime = 0;
+//    private boolean timerStarted = false;
+    private boolean pauseMenuVisible = false;
     public boolean messageOn = false;
     public String message = "";
     int messageCounter = 0;
 
     public boolean gameFinished = false;
 
-    public boolean teleport = false;
-
-    float playTime;
+    public float playTime;
     DecimalFormat dFormat = new DecimalFormat("#0.00");
 
     public UI(GamePanel gp) {
@@ -62,19 +67,18 @@ public class UI {
         g2.setFont(arial_40);
         g2.setColor(Color.white);
 
-        if(gameFinished) {
+        if (gameFinished) {
 
-            String text;
-            int textLength;
-            int x, y;
+            // Start the timer only once
+            gameFinished = true;
 
-
+            // Draw your congratulations messages (your existing code)
             g2.setFont(arial_40);
             g2.setColor(Color.yellow);
-            text = "You got to the book!";
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = gp.screenWidth / 2 - textLength / 2;
-            y = gp.screenHeight / 2 - gp.tileSize * 3;
+            String text = "You got to the final book!";
+            int textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            int x = gp.screenWidth / 2 - textLength / 2;
+            int y = gp.screenHeight / 2 - gp.tileSize * 3;
             g2.drawString(text, x, y);
 
             text = "Your time is: " + dFormat.format(playTime) + "!";
@@ -82,7 +86,6 @@ public class UI {
             x = gp.screenWidth / 2 - textLength / 2;
             y = gp.screenHeight / 2 + gp.tileSize * 4;
             g2.drawString(text, x, y);
-
 
             g2.setFont(arial_100B);
             g2.setColor(Color.white);
@@ -92,9 +95,23 @@ public class UI {
             y = gp.screenHeight / 2 + gp.tileSize * 2;
             g2.drawString(text, x, y);
 
-            gp.gameThread = null;
+            if (!redirectScheduled) {
+                redirectScheduled = true;
 
+                // Schedule going back to main menu after 10 seconds
+                Timer timer = new Timer(10000, e -> {
+                    Window window = SwingUtilities.getWindowAncestor(gp);
+                    if (window instanceof JFrame) {
+                        window.dispose(); // close game window
+                    }
+
+                    SwingUtilities.invokeLater(() -> new GameMenu().setVisible(true));
+                });
+                timer.setRepeats(false);
+                timer.start();
+            }
         }
+
         else {
 
             if(gp.gameState == gp.playState) {
@@ -102,9 +119,9 @@ public class UI {
                 g2.setFont(arial_20);
                 g2.setColor(Color.white);
                 g2.drawImage(keyImage, gp.tileSize / 4, gp.tileSize / 4, gp.tileSize, gp.tileSize,null);
-                g2.drawString("x " + gp.player.hasKey, 50, 45);
+                g2.drawString("  " + gp.player.hasKey + " / 10", 50, 45);
                 g2.drawImage(diamondImage, gp.tileSize / 4, gp.tileSize + gp.tileSize / 4, gp.tileSize, gp.tileSize,null);
-                g2.drawString("x " + gp.player.hasDiamond, 50, 90);
+                g2.drawString("  " + gp.player.hasDiamond + " / 10", 50, 90);
 
                 // MESSAGE
                 if(messageOn) {
@@ -128,6 +145,8 @@ public class UI {
             }
             if(gp.gameState == gp.pauseState) {
                 drawPauseScreen();
+
+
             }
 
         }
@@ -146,5 +165,17 @@ public class UI {
     public int getXForCenteredText(String text) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.screenWidth / 2 - length / 2;
+
+    }
+
+    public float getPlayTime() {
+        return playTime;
+    }
+
+    public void setPlayTime(float playTime) {
+        this.playTime = playTime;
     }
 }
+
+
+

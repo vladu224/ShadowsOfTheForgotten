@@ -2,6 +2,7 @@ package main;
 
 import object.OBJ_Book;
 import object.OBJ_Diamond;
+import object.OBJ_Final_Book;
 import object.OBJ_Key;
 
 public class AssetSetter {
@@ -14,7 +15,7 @@ public class AssetSetter {
 
     public void setObject() {
 
-        // KEYS
+        // KEYS - LVL1
 
         gp.obj[0] = new OBJ_Key();
         gp.obj[0].worldX = 14 * gp.tileSize;
@@ -57,7 +58,7 @@ public class AssetSetter {
         gp.obj[9].worldY = 42 * gp.tileSize;
 
 
-        // DIAMONDS
+        // DIAMONDS - LVL1
 
         gp.obj[10] = new OBJ_Diamond();
         gp.obj[10].worldX = 81 * gp.tileSize;
@@ -100,7 +101,7 @@ public class AssetSetter {
         gp.obj[19].worldY = 46 * gp.tileSize;
 
 
-        // BOOK
+        // BOOK - LVL1
 
         gp.obj[20] = new OBJ_Book();
         gp.obj[20].worldX = 88 * gp.tileSize;
@@ -109,7 +110,7 @@ public class AssetSetter {
         //x: 86;     87;     88;
         //y: 40;     39;     39;
 
-        // KEYS
+        // KEYS - LVL2
 
         gp.obj[21] = new OBJ_Key();
         gp.obj[21].worldX = 14 * gp.tileSize;
@@ -141,7 +142,7 @@ public class AssetSetter {
 
         gp.obj[28] = new OBJ_Key();
         gp.obj[28].worldX = 34 * gp.tileSize;
-        gp.obj[28].worldY = 153 * gp.tileSize;
+        gp.obj[28].worldY = 152 * gp.tileSize;
 
         gp.obj[29] = new OBJ_Key();
         gp.obj[29].worldX = 9 * gp.tileSize;
@@ -152,7 +153,7 @@ public class AssetSetter {
         gp.obj[30].worldY = 171 * gp.tileSize;
 
 
-        // DIAMONDS
+        // DIAMONDS - LVL2
 
         gp.obj[31] = new OBJ_Diamond();
         gp.obj[31].worldX = 77 * gp.tileSize;
@@ -195,13 +196,104 @@ public class AssetSetter {
         gp.obj[40].worldY = 113 * gp.tileSize;
 
 
-        // BOOK
+        // BOOK - LVL2
 
         gp.obj[41] = new OBJ_Book();
         gp.obj[41].worldX = 90 * gp.tileSize;
         gp.obj[41].worldY = 134 * gp.tileSize;
 
-        //x: 88;      89;      90;
-        //y: 134;     133;     133;
+
+        // KEYS - LVL3
+
+        gp.obj[42] = new OBJ_Key();
+        gp.obj[42].worldX = 9 * gp.tileSize;
+        gp.obj[42].worldY = 223 * gp.tileSize;
+
+        gp.obj[43] = new OBJ_Key();
+        gp.obj[43].worldX = 30 * gp.tileSize;
+        gp.obj[43].worldY = 216 * gp.tileSize;
+
+        gp.obj[44] = new OBJ_Key();
+        gp.obj[44].worldX = 79 * gp.tileSize;
+        gp.obj[44].worldY = 208 * gp.tileSize;
+
+        gp.obj[45] = new OBJ_Key();
+        gp.obj[45].worldX = 28 * gp.tileSize;
+        gp.obj[45].worldY = 234 * gp.tileSize;
+
+        gp.obj[46] = new OBJ_Key();
+        gp.obj[46].worldX = 50 * gp.tileSize;
+        gp.obj[46].worldY = 238 * gp.tileSize;
+
+        gp.obj[47] = new OBJ_Key();
+        gp.obj[47].worldX = 90 * gp.tileSize;
+        gp.obj[47].worldY = 233 * gp.tileSize;
+
+        gp.obj[48] = new OBJ_Key();
+        gp.obj[48].worldX = 9 * gp.tileSize;
+        gp.obj[48].worldY = 256 * gp.tileSize;
+
+        gp.obj[49] = new OBJ_Key();
+        gp.obj[49].worldX = 72 * gp.tileSize;
+        gp.obj[49].worldY = 265 * gp.tileSize;
+
+        gp.obj[50] = new OBJ_Key();
+        gp.obj[50].worldX = 16 * gp.tileSize;
+        gp.obj[50].worldY = 288 * gp.tileSize;
+
+        gp.obj[51] = new OBJ_Key();
+        gp.obj[51].worldX = 86 * gp.tileSize;
+        gp.obj[51].worldY = 286 * gp.tileSize;
+
+
+//        // DIAMONDS - LVL3
+
+        gp.obj[52] = new OBJ_Diamond();
+        gp.obj[52].worldX = 21 * gp.tileSize;
+        gp.obj[52].worldY = 208 * gp.tileSize;
+
+        gp.obj[53] = new OBJ_Diamond();
+        gp.obj[53].worldX = 50 * gp.tileSize;
+        gp.obj[53].worldY = 210 * gp.tileSize;
+
+        gp.obj[54] = new OBJ_Diamond();
+        gp.obj[54].worldX = 90 * gp.tileSize;
+        gp.obj[54].worldY = 212 * gp.tileSize;
+
+        gp.obj[55] = new OBJ_Diamond();
+        gp.obj[55].worldX = 67 * gp.tileSize;
+        gp.obj[55].worldY = 229  * gp.tileSize;
+
+        gp.obj[56] = new OBJ_Diamond();
+        gp.obj[56].worldX = 48 * gp.tileSize;
+        gp.obj[56].worldY = 230 * gp.tileSize;
+
+        gp.obj[57] = new OBJ_Diamond();
+        gp.obj[57].worldX = 34 * gp.tileSize;
+        gp.obj[57].worldY = 255 * gp.tileSize;
+
+        gp.obj[58] = new OBJ_Diamond();
+        gp.obj[58].worldX = 65 * gp.tileSize;
+        gp.obj[58].worldY = 246 * gp.tileSize;
+
+        gp.obj[59] = new OBJ_Diamond();
+        gp.obj[59].worldX = 9 * gp.tileSize;
+        gp.obj[59].worldY = 275 * gp.tileSize;
+
+        gp.obj[60] = new OBJ_Diamond();
+        gp.obj[60].worldX = 55 * gp.tileSize;
+        gp.obj[60].worldY = 286 * gp.tileSize;
+
+        gp.obj[61] = new OBJ_Diamond();
+        gp.obj[61].worldX = 102 * gp.tileSize;
+        gp.obj[61].worldY = 288 * gp.tileSize;
+
+
+        // FINAL BOOK
+
+        gp.obj[62] = new OBJ_Final_Book();
+        gp.obj[62].worldX = 116 * gp.tileSize;
+        gp.obj[62].worldY = 287 * gp.tileSize;
+
     }
 }

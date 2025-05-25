@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import javax.sound.sampled.*;
 
 public class GameMenu extends JFrame {
@@ -28,8 +29,7 @@ public class GameMenu extends JFrame {
         // Butoane
         JButton startButton = createButton("START");
         JButton loadButton = createButton("Load Game");
-        JButton saveButton = createButton("Save");
-        JButton settingsButton = createButton("Settings");
+        JButton leaderboardButton = createButton("Leaderboard");
         JButton exitButton = createButton("EXIT");
 
         // Acțiuni cu sunet click
@@ -39,42 +39,74 @@ public class GameMenu extends JFrame {
 //        });
         startButton.addActionListener(e -> {
             playClickSound();
+
+            // Ask for player name first
+            String playerName = JOptionPane.showInputDialog(this, "Enter your player name:", "Player Name", JOptionPane.PLAIN_MESSAGE);
+
+            if (playerName != null && !playerName.trim().isEmpty()) {
+                dispose(); // Close the menu
+
+                // Launch the game window with player name passed to GamePanel
+                SwingUtilities.invokeLater(() -> {
+                    JFrame window = new JFrame();
+                    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    window.setResizable(true);
+                    window.setTitle("Cartea Umbrelor");
+
+                    GamePanel gamePanel = new GamePanel();
+                    gamePanel.player.setName(playerName.trim());  // set the player name here!
+
+                    window.add(gamePanel);
+                    window.pack();
+                    window.setLocationRelativeTo(null);
+                    window.setVisible(true);
+
+                    gamePanel.setupGame();
+                    gamePanel.startGameThread();
+                });
+            } else {
+                // Name was empty or user pressed cancel
+                JOptionPane.showMessageDialog(this,
+                        "Player name cannot be empty.",
+                        "Invalid Name",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        });
+
+        loadButton.addActionListener(e -> {
+            playClickSound();
             dispose(); // Close the menu
 
-            // Launch the game window
             SwingUtilities.invokeLater(() -> {
-
                 JFrame window = new JFrame();
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                window.setResizable(false);
+                window.setResizable(true);
                 window.setTitle("Cartea Umbrelor");
 
                 GamePanel gamePanel = new GamePanel();
                 window.add(gamePanel);
                 window.pack();
-
                 window.setLocationRelativeTo(null);
                 window.setVisible(true);
 
-                gamePanel.setupGame();
+                // Setup the game first
+                gamePanel.loadGame();
+
+                // Load data from database
+                DatabaseManager dbManager = new DatabaseManager();
+                dbManager.loadPlayer(gamePanel.player, gamePanel.ui);  // <- This line loads saved state
+                //dbManager.loadObjects(Arrays.asList(gamePanel.obj));
+
+                // Then start the game
                 gamePanel.startGameThread();
             });
         });
 
-        loadButton.addActionListener(e -> {
+        leaderboardButton.addActionListener(e -> {
             playClickSound();
-            JOptionPane.showMessageDialog(this, "Se încarcă jocul salvat...");
+            showLeaderboard();
         });
 
-        saveButton.addActionListener(e -> {
-            playClickSound();
-            JOptionPane.showMessageDialog(this, "Progresul a fost salvat.");
-        });
-
-        settingsButton.addActionListener(e -> {
-            playClickSound();
-            showSettings();
-        });
 
         exitButton.addActionListener(e -> {
             playClickSound();
@@ -84,8 +116,7 @@ public class GameMenu extends JFrame {
         // Adaugă butoane
         panel.add(startButton);
         panel.add(loadButton);
-        panel.add(saveButton);
-        panel.add(settingsButton);
+        panel.add(leaderboardButton);
         panel.add(exitButton);
 
         setContentPane(panel);
@@ -161,4 +192,26 @@ public class GameMenu extends JFrame {
             ex.printStackTrace();
         }
     }
+
+    private void showLeaderboard() {
+        DatabaseManager dbManager = new DatabaseManager();
+        java.util.List topPlayers = dbManager.getTopPlayers();  // raw list, avoids generics issue
+
+        if (topPlayers == null || topPlayers.size() == 0) {
+            JOptionPane.showMessageDialog(this, "No completed games yet.", "Leaderboard", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        String leaderboardText = "Top 5 Fastest Players:\n\n";
+        for (int i = 0; i < topPlayers.size(); i++) {
+            String playerInfo = (String) topPlayers.get(i);
+            leaderboardText += (i + 1) + ". " + playerInfo + "\n";
+        }
+
+        JOptionPane.showMessageDialog(this, leaderboardText, "Leaderboard", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
+
+
 }
