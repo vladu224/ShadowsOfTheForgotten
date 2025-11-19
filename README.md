@@ -1,8 +1,8 @@
 ## For controller input(IntelliJ Idea):
 
-**1.** Run->Edit Configurations
+**1.** Run -> Edit Configurations
 
-**2.** Select your main configuration (usually named "Main" or whatever your main class is) (Click '+').
+**2.** Select your main configuration ("Main") or (Click '+' -> Application) and configure a new one.
 
 **3.** Click "Modify options" (it's a link/button with "Modify options" text).
 
