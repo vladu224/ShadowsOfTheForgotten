@@ -41,7 +41,7 @@ public class EnemySetter {
         gp.npc[21] = new NPC_inamic(gp, 19 * gp.tileSize, 265 * gp.tileSize);
         gp.npc[22] = new NPC_inamic(gp, 60 * gp.tileSize, 266 * gp.tileSize);
         gp.npc[23] = new NPC_inamic(gp, 73 * gp.tileSize, 263 * gp.tileSize);
-        gp.npc[24] = new NPC_inamic(gp, 10 * gp.tileSize, 279 * gp.tileSize);//bun
+        gp.npc[24] = new NPC_inamic(gp, 10 * gp.tileSize, 279 * gp.tileSize);
         gp.npc[25] = new NPC_inamic(gp, 37 * gp.tileSize, 284 * gp.tileSize);
     }
 }

@@ -30,6 +30,7 @@ public class GameMenu extends JFrame {
         JButton startButton = createButton("START");
         JButton loadButton = createButton("Load Game");
         JButton leaderboardButton = createButton("Leaderboard");
+        JButton instructionsButton = createButton("Instructions");
         JButton exitButton = createButton("EXIT");
 
         // Acțiuni cu sunet click
@@ -107,6 +108,7 @@ public class GameMenu extends JFrame {
             showLeaderboard();
         });
 
+        instructionsButton.addActionListener(e -> showInstructions());
 
         exitButton.addActionListener(e -> {
             playClickSound();
@@ -117,7 +119,9 @@ public class GameMenu extends JFrame {
         panel.add(startButton);
         panel.add(loadButton);
         panel.add(leaderboardButton);
+        panel.add(instructionsButton);
         panel.add(exitButton);
+
 
         setContentPane(panel);
     }
@@ -211,7 +215,21 @@ public class GameMenu extends JFrame {
         JOptionPane.showMessageDialog(this, leaderboardText, "Leaderboard", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    private void showInstructions() {
+        String instructions = """
+        Controls:
 
+        A/D       -> Move Left / Right
+        W/S       -> Climb Up / Down
+        SPACE -> Jump
+        ESC       -> Pause Game
+        """;
 
-
+        JOptionPane.showMessageDialog(
+                this, // or use parent JFrame
+                instructions,
+                "Instructions",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
 }

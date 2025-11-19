@@ -14,6 +14,21 @@ public class DatabaseManager {
         createTables();
     }
 
+    public class databaseManager {
+
+        // Add a static block at the top of the class
+        static {
+            try {
+                Class.forName("org.sqlite.JDBC");
+            } catch (ClassNotFoundException e) {
+                System.err.println("SQLite JDBC driver not found!");
+                e.printStackTrace();
+            }
+        }
+
+        // ... rest of your code
+    }
+
     private void createTables() {
         String playerTableSQL = "CREATE TABLE IF NOT EXISTS player (" +
                 "id INTEGER PRIMARY KEY, " +

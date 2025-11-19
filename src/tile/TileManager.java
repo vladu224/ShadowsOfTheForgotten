@@ -19,7 +19,7 @@ public class TileManager {
 
         this.gp = gp;
 
-        tile = new Tile[100];
+        tile = new Tile[12];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
