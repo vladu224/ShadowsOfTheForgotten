@@ -4,6 +4,7 @@ import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,55 +28,59 @@ public class TileManager {
 
     }
 
+    private BufferedImage loadTileImage(String path) throws IOException {
+        InputStream is = getClass().getResourceAsStream(path);
+        if (is == null) {
+            throw new IOException("Cannot find tile image: " + path);
+        }
+        return ImageIO.read(is);
+    }
+
     public void getTileImage() {
-
         try {
-
-//            tile[0] = new Tile();
-//            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
-
+            // tile[1]
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_1.png"));
+            tile[1].image = loadTileImage("/tiles/tile_0_1.png");
 
             // LVL 1
             tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_2.png"));
+            tile[2].image = loadTileImage("/tiles/tile_0_2.png");
             tile[2].collision = true;
 
             tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_3.png"));
+            tile[3].image = loadTileImage("/tiles/tile_0_3.png");
 
             // LVL 2
             tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_4.png"));
+            tile[4].image = loadTileImage("/tiles/tile_0_4.png");
 
             tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_5.png"));
+            tile[5].image = loadTileImage("/tiles/tile_0_5.png");
             tile[5].collision = true;
 
             tile[6] = new Tile();
-            tile[6].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_6.png"));
+            tile[6].image = loadTileImage("/tiles/tile_0_6.png");
             tile[6].collision = true;
 
             // LVL 3
             tile[7] = new Tile();
-            tile[7].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_7.png"));
+            tile[7].image = loadTileImage("/tiles/tile_0_7.png");
 
             tile[8] = new Tile();
-            tile[8].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_8.png"));
+            tile[8].image = loadTileImage("/tiles/tile_0_8.png");
 
             tile[9] = new Tile();
-            tile[9].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_9.png"));
+            tile[9].image = loadTileImage("/tiles/tile_0_9.png");
             tile[9].collision = true;
 
             tile[10] = new Tile();
-            tile[10].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_10.png"));
+            tile[10].image = loadTileImage("/tiles/tile_0_10.png");
 
             tile[11] = new Tile();
-            tile[11].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tile_0_11.png"));
+            tile[11].image = loadTileImage("/tiles/tile_0_11.png");
             tile[11].collision = true;
 
-        }catch(IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
